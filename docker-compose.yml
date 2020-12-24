@@ -11,3 +11,32 @@ services:
       - "./server/:/usr/src/app"
     ports:
       - "5000:5000"
+
+  postgres:
+    container_name: postgres
+    build: 
+      context: ./db
+      dockerfile: Dockerfile
+    image: pern_todo:1.0
+    environment:
+      POSTGRES_DB: perntodo
+      POSTGRES_USER: pernuser
+      POSTGRES_PASSWORD: pernpass
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+   
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:4.28
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pernuser@pern.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-pernpass}
+    volumes:
+       - pgadmin:/root/.pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    restart: unless-stopped
+volumes:
+    postgres_data:
+    pgadmin:  
