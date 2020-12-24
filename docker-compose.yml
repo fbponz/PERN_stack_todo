@@ -1,0 +1,13 @@
+
+version: '3'
+
+services:
+  pern_backend:
+    build:
+      context: ./server
+      dockerfile: ./Dockerfile
+    image: "pern_stack"
+    volumes:
+      - "./server/:/usr/src/app"
+    ports:
+      - "5000:5000"
